@@ -1,5 +1,8 @@
 import React from 'react'
 import Link from 'next/link';
+import { css } from '@emotion/core'
+
+import Button from './styles/Button'
 
 const urlList = [
     {
@@ -14,10 +17,12 @@ const urlList = [
 
 const Nav = () => {
     return ( 
-    <nav>
+    <nav css={css`
+        display: flex;
+    `}>
         {urlList.map((data) => (
             <Link href={data.url}>
-                <a>{data.name}</a>
+                <Button>{data.name}</Button>
             </Link>
         ))}
     </nav> );
