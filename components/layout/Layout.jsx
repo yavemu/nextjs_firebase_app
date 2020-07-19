@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react'
+import Header from '../ui/Header'
+import Footer from '../ui/Footer'
 
 const Layout = ({children}) => {
     return ( 
         <Fragment>
-            <h1>Header</h1>
+            <Header/>
             <main>
                 {children}
             </main>
-            <footer>
-                Footer
-            </footer>
+            <Footer/>
         </Fragment>
      );
 }
