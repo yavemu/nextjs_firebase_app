@@ -1,11 +1,25 @@
 import React from 'react'
 import Link from 'next/link';
 
+const urlList = [
+    {
+        "url": "/",
+        "name": "Home"
+    },
+    {
+        "url": "/about",
+        "name": "About"
+    }
+]
+
 const Nav = () => {
     return ( 
     <nav>
-        <Link href='/'>Home</Link>
-        <Link href='/about'>About</Link>
+        {urlList.map((data) => (
+            <Link href={data.url}>
+                <a>{data.name}</a>
+            </Link>
+        ))}
     </nav> );
 }
  
