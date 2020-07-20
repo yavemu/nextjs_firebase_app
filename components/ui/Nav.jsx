@@ -10,8 +10,16 @@ const urlList = [
         "name": "Home"
     },
     {
-        "url": "/about",
-        "name": "About"
+        "url": "/products",
+        "name": "Products"
+    },
+    {
+        "url": "/products/new",
+        "name": "New Product"
+    },
+    {
+        "url": "/products/popular",
+        "name": "Popular Products"
     }
 ]
 

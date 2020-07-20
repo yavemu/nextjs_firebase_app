@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 const Button = styled.a`
     font-weight: 400;
-    text-decoration: uppercase;
+    text-transform: capitalize;
     border: 1px solid var(--primary-border-color);
     border-radius: .6rem;
     padding: .8rem  2rem;
