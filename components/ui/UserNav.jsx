@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext} from 'react'
 import Link from 'next/link';
 import Button from './styles/Button'
 import { css } from '@emotion/core'
+import { FirebaseContext } from '../../firebase'
 
 const UserNav = () => {
 
-    const userLogin = false;
+    const { userAuth, firebase } = useContext(FirebaseContext)
 
     return ( 
         <div css={css`
@@ -13,13 +14,13 @@ const UserNav = () => {
                 align-items: center;
             `
         }>
-            {!!userLogin && 
+            {!!userAuth && 
                 <Fragment>
-                    <p>Welcome: Guest</p>
-                    <Button btnSecondary='true'>Logout</Button>
+                    <p>Welcome: {userAuth.displayName}</p>
+                    <Button btnSecondary='true' onClick={() => firebase.logout()} >Logout</Button>
                 </Fragment>
             }
-            {!userLogin && 
+            {!userAuth && 
                 <Fragment>
                     <Link href='/login'>
                         <Button btnSecondary='true'>Login</Button>
