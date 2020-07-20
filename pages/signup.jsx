@@ -1,10 +1,12 @@
-import Layout from '../components/layout/Layout'
-import { Form, Field, InputSubmit, FieldError } from '../components/ui/styles/Form'
+import React, { useState } from 'react';
+import Router from 'next/router'
+
 import { Title } from '../components/ui/styles/Utils'
-
-
+import { Form, Field, InputSubmit, FieldError } from '../components/ui/styles/Form'
+import Layout from '../components/layout/Layout'
 import useValidation from '../hooks/useValidation'
 import signupValidations from '../validationRules/signupValidations'
+import firebase from '../firebase'
 
 const INITIAL_STATE = {
     name: '',
@@ -13,10 +15,16 @@ const INITIAL_STATE = {
 }
 
 const Signup = () => {
-
+    const [signUpError, setSignUpError] = useState()
     
-    const handleCreateAccount = () => {
-        console.log('Create Account Successfully');
+    const handleCreateAccount =  async () => {
+        try {
+            setSignUpError('')
+            await firebase.signup(name, email, password)
+            Router.push('/')
+        } catch (error) {
+            setSignUpError(error.message)
+        }
     }
     
     const {valuesSaved,errorsValidation,handleSubmit,handleChange, handleValidate} = useValidation(INITIAL_STATE,signupValidations, handleCreateAccount)
@@ -63,7 +71,12 @@ const Signup = () => {
                 />
             </Field>
             {!!errorsValidation.password && <FieldError>{errorsValidation.password}</FieldError> }
-            <InputSubmit type="submit" value='Create account'/>
+            <Field>
+                <InputSubmit type="submit" value='Create account'/>
+            </Field>
+            <Field>
+                {!!signUpError && <FieldError>{signUpError}</FieldError> }
+            </Field>
         </Form>
         </Layout> 
     );
