@@ -20,6 +20,7 @@ const Layout = ({children}) => {
                         --logo-color: #f0977a;
                         --primary-font-color: #3D3D3D;
                         --secondary-font-color: #6F6F6F;
+                        --error-background-color: #a52a2a;
 
                     }
 

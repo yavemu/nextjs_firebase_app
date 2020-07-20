@@ -37,4 +37,14 @@ export const InputSubmit = styled.input`
     &:hover{
         border: 1px solid black;
     }
+    `
+
+export const FieldError = styled.p`
+    color: var(--error-background-color);
+    font-size: 1.2rem;
+    margin-left: 30%;
+    font-family: 'Roboto', sans-serif;
+    text-transform: capitalize;
+    text-align: justify;
+    margin-top: -2rem;
 `
