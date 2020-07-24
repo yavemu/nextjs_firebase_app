@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/router'
+import FileUploader from 'react-firebase-file-uploader'
 
 import { Title } from '../../components/ui/styles/Utils'
 import { Form, Field, InputSubmit, FieldError } from '../../components/ui/styles/Form'
@@ -11,15 +12,44 @@ import { FirebaseContext } from '../../firebase'
 const INITIAL_STATE = {
   product_name: '',
   business_name: '',
-  image: '',
   url: '',
   description: '',
 }
 
 const NewProduct = () => {
     const [errors, setErrors] = useState()
+    const [imageName, setImageName] = useState()
+    const [imageUrl, setImageUrl] = useState('')
+    const [uploadingImage, setUploadingImage] = useState(false)
+    const [progressImage, setProgressImage] = useState(0)
     const router = useRouter()   
     const { userAuth, firebase } = useContext(FirebaseContext)
+
+    const handleUploadStart = () => {
+        setProgressImage(0)
+        setUploadingImage(true)
+    }
+
+    const handleProgress = (progress) => {
+        setProgressImage({progress})
+    }
+
+    const handleUploadError = (error) => {
+        setUploadingImage(error)
+    }
+
+    const handleUploadSuccess = (name) => {
+        setProgressImage(100)
+        setUploadingImage(false)
+        setImageName(name)
+
+        firebase
+            .storage
+            .ref('products')
+            .child(name)
+            .getDownloadURL()
+            .then(url => setImageUrl(url))
+    }
 
     const handleNewProduct =  async () => {
         if (!userAuth) {
@@ -27,17 +57,22 @@ const NewProduct = () => {
         }
 
         const productData = {
-            product_name, business_name, image, url, description,
+            product_name,
+            business_name,
+            image_url: imageUrl,
+            url,
+            description,
             votes: 0, 
             comments: [],
             createdDate: Date.now()
         }
 
         firebase.db.collection('products').add(productData)
+        return router.push('/');
     }
 
     const { valuesSaved,errorsValidation,handleSubmit,handleChange, handleValidate} = useValidation(INITIAL_STATE,productValidations, handleNewProduct)
-    const { product_name, business_name, image, url, description } = valuesSaved
+    const { product_name, business_name, url, description } = valuesSaved
     
     return ( 
         <Layout>
@@ -73,16 +108,18 @@ const NewProduct = () => {
             {!!errorsValidation.business_name && <FieldError>{errorsValidation.business_name}</FieldError> }
             <Field>
                 <label htmlFor='image'>Image</label>
-                <input  type="file" 
+                <FileUploader
+                        accept='image/*'
                         id='image' 
                         name='image'
-                        value={image}
-                        onChange={handleChange}
-                        onBlur={handleValidate}
-                        onKeyUp={handleValidate}
+                        randomizeFilename
+                        storageRef={firebase.storage.ref("products")}
+                        onUploadStart={handleUploadStart}
+                        onUploadError={handleUploadError}
+                        onUploadSuccess={handleUploadSuccess}
+                        onProgress={handleProgress}
                 />
             </Field>
-            {!!errorsValidation.image && <FieldError>{errorsValidation.image}</FieldError> }
             <Field>
                 <label htmlFor='url'>Url</label>
                 <input  type="url" 

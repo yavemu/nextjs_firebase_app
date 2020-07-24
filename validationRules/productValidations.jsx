@@ -2,7 +2,6 @@ const signupValidations = (values) => {
     let errors = {};
     const PRODUCT_NAME = values.product_name.trim();
     const BUSINESS_NAME = values.business_name.trim();
-    const IMAGE = values.image.trim();
     const URL = values.url.trim();
     const DESCRIPTION = values.description.trim();
 
