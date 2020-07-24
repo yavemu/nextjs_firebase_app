@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import Router from 'next/router'
+import React, { useState, useContext } from 'react';
+import { useRouter } from 'next/router'
 
 import { Title } from '../../components/ui/styles/Utils'
 import { Form, Field, InputSubmit, FieldError } from '../../components/ui/styles/Form'
 import Layout from '../../components/layout/Layout'
 import useValidation from '../../hooks/useValidation'
 import productValidations from '../../validationRules/productValidations'
-import firebase from '../../firebase'
+import { FirebaseContext } from '../../firebase'
 
 const INITIAL_STATE = {
   product_name: '',
@@ -17,21 +17,28 @@ const INITIAL_STATE = {
 }
 
 const NewProduct = () => {
-  const [errors, setErrors] = useState()
-    
-    const handleNewProduct =  async () => {
-        try {
-            setErrors('')
-            await firebase.login(product_name, business_name, image, url, description)
-            Router.push('/')
-        } catch (error) {
-            setErrors(error.message)
-        }
-    }
-    
-    const {valuesSaved,errorsValidation,handleSubmit,handleChange, handleValidate} = useValidation(INITIAL_STATE,productValidations, handleNewProduct)
-    const { product_name, business_name, image, url, description } = valuesSaved
+    const [errors, setErrors] = useState()
+    const router = useRouter()   
+    const { userAuth, firebase } = useContext(FirebaseContext)
 
+    const handleNewProduct =  async () => {
+        if (!userAuth) {
+            return router.push('/login')
+        }
+
+        const productData = {
+            product_name, business_name, image, url, description,
+            votes: 0, 
+            comments: [],
+            createdDate: Date.now()
+        }
+
+        firebase.db.collection('products').add(productData)
+    }
+
+    const { valuesSaved,errorsValidation,handleSubmit,handleChange, handleValidate} = useValidation(INITIAL_STATE,productValidations, handleNewProduct)
+    const { product_name, business_name, image, url, description } = valuesSaved
+    
     return ( 
         <Layout>
         <Title>New Product</Title>
