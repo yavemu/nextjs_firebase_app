@@ -64,7 +64,11 @@ const NewProduct = () => {
             description,
             votes: 0, 
             comments: [],
-            createdDate: Date.now()
+            createdDate: Date.now(),
+            createdBy: {
+                author: userAuth.displayName,
+                authorId: userAuth.uid
+            }
         }
 
         firebase.db.collection('products').add(productData)

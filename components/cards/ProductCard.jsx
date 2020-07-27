@@ -80,7 +80,7 @@ const Votes = styled.div`
 
 const ProductCard = ({key, product}) => {
 
-const {id,product_name,business_name,image_url,url,description,votes, comments, createdDate} = product
+const {id,product_name,business_name,image_url,url,description,votes, comments, createdDate, createdBy} = product
     return ( 
         <Product key={key}>
             <Image src={image_url}/>
@@ -96,8 +96,7 @@ const {id,product_name,business_name,image_url,url,description,votes, comments, 
                         <p>{`${comments.length} Comments`}</p>
                     </div>
                 </Comments>
-
-                <p>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )}</p>
+                <p>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} - by {createdBy.author}</p>
             </Description>
             <Votes>
                 <div> &#9650; </div>

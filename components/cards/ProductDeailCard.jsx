@@ -25,14 +25,14 @@ const ProductDeail = styled.div`
 `
 
 const ProductDetailCard = ({id,product}) => {
-    const {product_name,business_name,image_url,url,description,votes, comments, createdDate} = product
+    const {product_name,business_name,image_url,url,description,votes, comments, createdDate, createdBy} = product
     
     return ( 
         <Container>
             <h1>{product_name}</h1>
             <ProductDeail>
                 <div>
-                    <p>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )}</p>
+                    <p>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} - by {createdBy.author}</p>
                     <img src={image_url}/>
                     <div css={css`
                         display: flex;
