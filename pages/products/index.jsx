@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext} from 'react';
 import Layout from '../../components/layout/Layout'
 import { FirebaseContext } from '../../firebase'
+import { Title } from '../../components/ui/styles/Utils';
+import ListProducts from '../../components/list/ListProducts';
 
 const Products = () => {
   const [products, setProducts] = useState([])
@@ -27,7 +29,8 @@ const Products = () => {
 
   return ( 
     <Layout>
-      <h1>Products</h1>
+      <Title>Products</Title>
+      <ListProducts products={products}/>
     </Layout> 
   );
 }
