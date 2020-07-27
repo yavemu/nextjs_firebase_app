@@ -6,10 +6,14 @@ const Button = styled.a`
     border: 1px solid var(--primary-border-color);
     border-radius: .6rem;
     padding: .8rem  2rem;
-    margin-left: .5rem;
-    margin-right: .5rem;
+    text-align: center;
+    margin-left: ${props => props.noMargin ? '0rem' : '.5rem'};
+    margin-right: ${props => props.noMargin ? '0rem' : '.5rem'};
+    display: ${props => props.displayBlock ? 'block' : 'inline-block'};
     background-color: ${props => props.btnSecondary ? 'var(--secondary-bottom-color)' : 'var(--primary-bottom-color)'};
     color: ${props => props.btnSecondary ? 'white' : 'black'};
+    width: ${props => props.widthMiddle ? '50%' : 'inherit'}; 
+    height: 4rem;
 
     &:last-of-type {
         margin-right: 0

@@ -74,6 +74,10 @@ const Layout = ({children}) => {
                     a, button {
                         cursor: pointer
                     }
+
+                    img {
+                        max-width: 100%;
+                    }
                 `}
             />
             <Head>

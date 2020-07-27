@@ -5,6 +5,7 @@ import Layout from '../../components/layout/Layout'
 import { FirebaseContext } from '../../firebase'
 import Error404 from '../../components/errors/404'
 import Spinner from '../../components/loading/Spinner'
+import ProductDetailCard from '../../components/cards/ProductDeailCard'
  
 const GetProduct = () => {
     const [product, setProduct] = useState({})
@@ -41,7 +42,7 @@ const GetProduct = () => {
     return ( 
         <Layout>
             {!!error && <Error404 customMessage='Product does not exist' />}
-            {!error && <h1>This is the productID: {id}</h1>}
+            {!error && <ProductDetailCard id={id} product={product}/>}
         </Layout>
      );
 }
