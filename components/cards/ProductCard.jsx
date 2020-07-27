@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import Link from 'next/link'
 
 const Product = styled.li`
     padding: 4rem;
@@ -79,12 +80,14 @@ const Votes = styled.div`
 
 const ProductCard = ({key, product}) => {
 
-const {product_name,business_name,image_url,url,description,votes, comments, createdDate} = product
+const {id,product_name,business_name,image_url,url,description,votes, comments, createdDate} = product
     return ( 
         <Product key={key}>
             <Image src={image_url}/>
             <Description>
-                <Title>{product_name}</Title>
+                <Link href='/products/[id]' as={`/products/${id}`}>
+                    <Title>{product_name}</Title>
+                </Link>
                 <DescriptionText>{description}</DescriptionText>
 
                 <Comments>
