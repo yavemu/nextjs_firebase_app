@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
+import { FirebaseContext } from '../../firebase'
 import NewComment from '../ui/forms/products/NewComment';
 import ProductComments from '../list/ProductComments';
 import Button from '../ui/styles/Button'
@@ -26,6 +28,7 @@ const ProductDeail = styled.div`
 
 const ProductDetailCard = ({id,product}) => {
     const {product_name,business_name,image_url,url,description,votes, comments, createdDate, createdBy} = product
+    const { userAuth } = useContext(FirebaseContext)
     
     return ( 
         <Container>
@@ -40,14 +43,10 @@ const ProductDetailCard = ({id,product}) => {
                         align-items: center;
                     `}>
                         <p>{votes} votes</p>
-                        <Button 
-                            widthMiddle={true}
-                        >
-                            Vote
-                        </Button>
+                        {!!userAuth && <Button widthMiddle={true}> Vote </Button> }
                     </div>
                     <p>{description}</p>
-                    <NewComment comment=''/>
+                    {!!userAuth && <NewComment comment=''/> }
                     <ProductComments comments={comments}/>
                 </div>
                 <aside>

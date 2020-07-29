@@ -8,6 +8,7 @@ import Layout from '../../components/layout/Layout'
 import useValidation from '../../hooks/useValidation'
 import productValidations from '../../validationRules/productValidations'
 import { FirebaseContext } from '../../firebase'
+import Error404 from '../../components/errors/404';
 
 const INITIAL_STATE = {
   product_name: '',
@@ -77,6 +78,12 @@ const NewProduct = () => {
 
     const { valuesSaved,errorsValidation,handleSubmit,handleChange, handleValidate} = useValidation(INITIAL_STATE,productValidations, handleNewProduct)
     const { product_name, business_name, url, description } = valuesSaved
+
+    if (!userAuth) {
+        return <Layout>
+            <Error404/>
+        </Layout>
+    }
     
     return ( 
         <Layout>
