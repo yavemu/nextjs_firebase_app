@@ -64,6 +64,7 @@ const NewProduct = () => {
             url,
             description,
             votes: 0, 
+            votingUsers: [],
             comments: [],
             createdDate: Date.now(),
             createdBy: {

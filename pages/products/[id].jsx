@@ -33,7 +33,7 @@ const GetProduct = () => {
 
     useEffect(() => {
         getProduct()
-    }, [id])
+    }, [id, product])
 
     if (!!loading) {
         return <Spinner/>
@@ -42,7 +42,7 @@ const GetProduct = () => {
     return ( 
         <Layout>
             {!!error && <Error404 customMessage='Product does not exist' />}
-            {!error && <ProductDetailCard id={id} product={product}/>}
+            {!error && <ProductDetailCard id={id} product={product} setProduct={setProduct}/>}
         </Layout>
      );
 }
