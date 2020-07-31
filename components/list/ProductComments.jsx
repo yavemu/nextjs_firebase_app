@@ -11,7 +11,7 @@ const ProductComments = ({comments={}}) => {
         <div className="comment-list-container">
             <ul className="comments-container">
                 {comments.map((comment, index) => (
-                    <ProductCommentCard key={index} comment={comment}/>
+                    <ProductCommentCard key={index} commentData={comment}/>
                 ))}
             </ul>
         </div>

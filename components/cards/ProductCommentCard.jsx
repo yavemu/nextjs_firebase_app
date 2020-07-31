@@ -2,15 +2,28 @@ import React from 'react'
 import styled from '@emotion/styled'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-const ProductCommentCard = ({comment}) => {
+const CommentLi = styled.li`
+    display: flex;
+    flex-direction: column;
+
+    p {
+        margin-bottom: 0px;
+    }
+
+    small{
+        padding-left: 4rem;
+    }
+`
+
+const ProductCommentCard = ({commentData}) => {
     
-    const { name, author} = comment
+    const { comment, createdBy, createdDate} = commentData
 
     return ( 
-        <li>
-            <p>{name}</p>
-            <p>Author: {author}</p>
-        </li>
+        <CommentLi>
+            <p>{comment}</p>
+            <small>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} - by {createdBy.author}</small>
+        </CommentLi>
     );
 }
  

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
@@ -31,8 +31,43 @@ const ProductDetailCard = ({id,product, setProduct}) => {
     const {product_name,business_name,image_url,url,description,votes,votingUsers, comments, createdDate, createdBy} = product
     const { firebase, userAuth } = useContext(FirebaseContext)
     const userHaveVoting = !!userAuth && votingUsers.includes(userAuth.uid) ? true : false
+    const [comment, setComment] = useState('')
     
     const router = useRouter()
+    
+    const handleSaveNewComment = async (e) =>{
+        e.preventDefault()
+        if (!userAuth) {
+            return router.push('/login')
+        }
+
+        const commentData = {
+            comment, 
+            createdDate: Date.now(),
+            createdBy: {
+                author: userAuth.displayName,
+                authorId: userAuth.uid
+            }
+        }
+
+        const newComments = [
+            ...comments,
+            commentData
+        ]
+
+        await firebase.db.collection('products').doc(id).update({
+            comments: newComments
+        })
+
+        setProduct({
+            ...product,
+            comments: newComments
+        })
+
+        setComment('')
+
+
+    }
 
     const handleVote = async () => {
         if (!userAuth) {
@@ -78,7 +113,7 @@ const ProductDetailCard = ({id,product, setProduct}) => {
                         }
                     </div>
                     <p>{description}</p>
-                    {!!userAuth && <NewComment comment=''/> }
+                    {!!userAuth && <NewComment comment={comment} handleChange={setComment} handleSubmit={handleSaveNewComment}/> }
                     <ProductComments comments={comments}/>
                 </div>
                 <aside>
