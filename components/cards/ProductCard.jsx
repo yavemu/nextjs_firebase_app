@@ -78,11 +78,11 @@ const Votes = styled.div`
 `;
 
 
-const ProductCard = ({key, product}) => {
+const ProductCard = ({product}) => {
 
 const {id,product_name,business_name,image_url,url,description,votes, comments, createdDate, createdBy} = product
     return ( 
-        <Product key={key}>
+        <Product>
             <Image src={image_url}/>
             <Description>
                 <Link href='/products/[id]' as={`/products/${id}`}>

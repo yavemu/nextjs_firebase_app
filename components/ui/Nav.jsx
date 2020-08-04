@@ -34,12 +34,12 @@ const Nav = () => {
         <nav css={css`
             display: flex;
         `}>
-            {urlList.map((data) => {
+            {urlList.map((data, index) => {
                 const showMenu = !data.requireAuth ? true : !!data.requireAuth && !!userAuth ? true : false;
 
                 if (!!showMenu) {
                     return (
-                        <Link href={data.url}>
+                        <Link href={data.url} key={index}>
                             <Button>{data.name}</Button>
                         </Link>
                     )
