@@ -31,6 +31,7 @@ const ProductDetailCard = ({id,product, setProduct}) => {
     const {product_name,business_name,image_url,url,description,votes,votingUsers, comments, createdDate, createdBy} = product
     const { firebase, userAuth } = useContext(FirebaseContext)
     const userHaveVoting = !!userAuth && votingUsers.includes(userAuth.uid) ? true : false
+    const userCanRemoveProduct = !!userAuth && createdBy.authorId === userAuth.uid ? true : false
     const [comment, setComment] = useState('')
     
     const router = useRouter()
@@ -65,9 +66,26 @@ const ProductDetailCard = ({id,product, setProduct}) => {
         })
 
         setComment('')
+    }
 
+    const handleDelete = async () => {
+        if (!userAuth) {
+            return router.push('/login')
+        }
+        
+        if (!userCanRemoveProduct) {
+            return router.push('/')
+        }
+        
+        try {
+            await firebase.db.collection('products').doc(id).delete()
+            return router.push('/')
+        } catch (error) {
+            console.error(error)
+        }
 
     }
+    
 
     const handleVote = async () => {
         if (!userAuth) {
@@ -96,6 +114,14 @@ const ProductDetailCard = ({id,product, setProduct}) => {
             <ProductDeail>
                 <div>
                     <p>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} - by {createdBy.author}</p>
+                    {!!userAuth &&  !!userCanRemoveProduct &&
+                        <Button 
+                            btnSecondary={true}
+                            onClick={handleDelete}
+                        > 
+                            Remove Product
+                        </Button> 
+                    }
                     <img src={image_url}/>
                     <div css={css`
                         display: flex;
