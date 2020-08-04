@@ -15,14 +15,26 @@ const CommentLi = styled.li`
     }
 `
 
-const ProductCommentCard = ({commentData}) => {
+const CreatorComment = styled.strong`
+    color: var(--primary-bottom-color);
+    max-width: max-content;
+`
+
+const ProductCommentCard = ({commentData, productAuthorId}) => {
     
     const { comment, createdBy, createdDate} = commentData
 
     return ( 
         <CommentLi>
-            <p>{comment}</p>
-            <small>Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} - by {createdBy.author}</small>
+            <p>
+                {comment}
+            </p>
+            <small>
+                Publicated at: { formatDistanceToNow( new Date(createdDate), {} )} 
+                - by 
+                {(productAuthorId == createdBy.authorId) && <CreatorComment> Author </CreatorComment>}
+                {createdBy.author}
+            </small>
         </CommentLi>
     );
 }

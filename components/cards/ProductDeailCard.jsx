@@ -114,7 +114,7 @@ const ProductDetailCard = ({id,product, setProduct}) => {
                     </div>
                     <p>{description}</p>
                     {!!userAuth && <NewComment comment={comment} handleChange={setComment} handleSubmit={handleSaveNewComment}/> }
-                    <ProductComments comments={comments}/>
+                    <ProductComments productAuthorId={createdBy.authorId} comments={comments}/>
                 </div>
                 <aside>
                     <Button
