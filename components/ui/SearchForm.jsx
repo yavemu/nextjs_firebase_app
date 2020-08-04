@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled'
 import { css } from '@emotion/core'
+import Router from 'next/router'
 
 const InputText = styled.input`
     border: 1px solid var(--secondary-background-color);
@@ -23,14 +24,34 @@ const SearchButton = styled.button`
 `;
 
 const SearchForm = () => {
+
+    const [searchValue, setSearchValue] = useState('')
+
+    const handleSearchProducts = e => {
+        e.preventDefault()
+
+        if (!!searchValue.trim()) {
+            Router.push({
+                pathname: '/products',
+                query: {'q': searchValue.toLowerCase()}
+            })
+        }
+    }
+
     return ( 
-        <form>
+        <form
+            onSubmit={handleSearchProducts}
+        >
             <div css={css`
                 position: relative;
                 margin-left: .5rem;
                 margin-right: .5rem;
             `}>
-                <InputText type="text" placeholder='Search products'/>
+                <InputText 
+                    type="text" 
+                    onChange={e => setSearchValue(e.target.value)} 
+                    placeholder='Search products'
+                />
                 <SearchButton type="submit">Search</SearchButton>
                 
             </div>
